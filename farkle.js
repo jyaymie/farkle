@@ -1,6 +1,7 @@
 const diceArr = [];
 const scores = [];
 let currScore = 0;
+const scoreboardEl = document.querySelector('.score');
 
 function initializeDice() {
 	for (let i = 0; i < 6; i++) {
@@ -27,7 +28,15 @@ function updateDiceImg() {
 	let diceImage;
 	for (let i = 0; i < 6; i++) {
 		diceImage = 'images/' + diceArr[i].value + '.png';
-		document.getElementById(diceArr[i].id).setAttribute('src', diceImage);
+		
+		const dieEl = document.getElementById(diceArr[i].id);
+		dieEl.setAttribute('src', diceImage);
+
+		if (diceArr[i].clicked) {
+			dieEl.classList.add('transparent');
+		} else {
+			dieEl.classList.remove('transparent');
+		}
 	}
 }
 
@@ -43,11 +52,6 @@ function diceClick(img) {
 }
 
 function handleDiceScore() {
-	currNum = 0;
-
-	const scoreboardEl = document.querySelector('.score');
-	scoreboardEl.textContent = 0;
-
 	let score = 0;
 	let dice1Count = 0;
 	let dice2Count = 0;
@@ -57,25 +61,27 @@ function handleDiceScore() {
 	let dice6Count = 0;
 
 	for (let i = 0; i < diceArr.length; i++) {
-		switch (diceArr[i].value) {
-			case 1:
-				dice1Count++;
-				break;
-			case 2:
-				dice2Count++;
-				break;
-			case 3:
-				dice3Count++;
-				break;
-			case 4:
-				dice4Count++;
-				break;
-			case 5:
-				dice5Count++;
-				break;
-			case 6:
-				dice6Count++;
-				break;
+		if (diceArr[i].clicked == 0) {
+			switch (diceArr[i].value) {
+				case 1:
+					dice1Count++;
+					break;
+				case 2:
+					dice2Count++;
+					break;
+				case 3:
+					dice3Count++;
+					break;
+				case 4:
+					dice4Count++;
+					break;
+				case 5:
+					dice5Count++;
+					break;
+				case 6:
+					dice6Count++;
+					break;
+			}
 		}
 	}
 
@@ -131,25 +137,30 @@ function handleDiceScore() {
 		score += 600;
 	}
 
-	scoreboardEl.textContent = score;
+	currScore += score;
+	scoreboardEl.textContent = currScore;
 
-	currScore = score;
+	handleFarkle(score);
 }
 
-function checkForCombo(num) {
-	let numCount = 0;
-
-	for (let i = 0; i < diceArr.length; i++) {
-		if (diceArr[i].value == num) {
-			numCount++;
-		}
+function handleFarkle(score) {
+	if (score == 0) {
+		scoreboardEl.textContent = 'Farkle!';
+		currScore = 0;
 	}
-	return numCount >= 3;
 }
 
 function bankScore() {
 	scores.push(currScore);
 	document.querySelector('.total-score').textContent = scores;
+
+	// Reset scoreboard
+	currScore = 0;
+	scoreboardEl.textContent = currScore;
+
+	// Reset dice
+	initializeDice();
+	updateDiceImg();
 }
 
 initializeDice();
