@@ -1,7 +1,7 @@
+const currScoreEl = document.querySelector('.current-score');
 const diceArr = [];
 let totalScore = 0;
 let currScore = 0;
-const scoreboardEl = document.querySelector('.current-score');
 
 function initializeDice() {
 	for (let i = 0; i < 6; i++) {
@@ -12,20 +12,22 @@ function initializeDice() {
 	}
 }
 
-/* Rolling dice values */
+// Rolling dice values
 function rollDice() {
 	for (let i = 0; i < 6; i++) {
 		if (diceArr[i].clicked === 0) {
 			diceArr[i].value = Math.floor(Math.random() * 6 + 1);
 		}
 	}
+
 	updateDiceImg();
 	handleDiceScore();
 }
 
-/* Update images of dice given values of rollDice */
+// Update images of dice given values of rollDice
 function updateDiceImg() {
 	let diceImage;
+
 	for (let i = 0; i < 6; i++) {
 		diceImage = 'images/' + diceArr[i].value + '.png';
 
@@ -40,6 +42,7 @@ function updateDiceImg() {
 	}
 }
 
+// Change dice transparency on dice click
 function diceClick(img) {
 	let i = img.getAttribute('data-number');
 
@@ -60,6 +63,7 @@ function handleDiceScore() {
 	let dice5Count = 0;
 	let dice6Count = 0;
 
+	// Count occurrences of each dice value
 	for (let i = 0; i < diceArr.length; i++) {
 		if (diceArr[i].clicked == 0) {
 			switch (diceArr[i].value) {
@@ -85,6 +89,7 @@ function handleDiceScore() {
 		}
 	}
 
+	// Calculate the current score based on dice value counts
 	if (dice1Count == 6) {
 		score = 2000;
 	} else if (dice1Count == 5) {
@@ -138,14 +143,14 @@ function handleDiceScore() {
 	}
 
 	currScore += score;
-	scoreboardEl.textContent = currScore;
+	currScoreEl.textContent = currScore;
 
 	handleFarkle(score);
 }
 
 function handleFarkle(score) {
 	if (score == 0) {
-		scoreboardEl.textContent = 'Farkle!';
+		currScoreEl.textContent = 'Farkle!';
 		currScore = 0;
 	}
 }
@@ -154,11 +159,11 @@ function bankScore() {
 	totalScore += currScore;
 	document.querySelector('.total-score').textContent = totalScore;
 
-	// Reset scoreboard
+	// Reset current score
 	currScore = 0;
-	scoreboardEl.textContent = currScore;
+	currScoreEl.textContent = currScore;
 
-	// Reset dice
+	// Reset all dice to unclicked
 	initializeDice();
 	updateDiceImg();
 }
