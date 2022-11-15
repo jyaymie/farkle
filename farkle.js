@@ -1,7 +1,7 @@
 const diceArr = [];
-const scores = [];
+let totalScore = 0;
 let currScore = 0;
-const scoreboardEl = document.querySelector('.score');
+const scoreboardEl = document.querySelector('.current-score');
 
 function initializeDice() {
 	for (let i = 0; i < 6; i++) {
@@ -28,7 +28,7 @@ function updateDiceImg() {
 	let diceImage;
 	for (let i = 0; i < 6; i++) {
 		diceImage = 'images/' + diceArr[i].value + '.png';
-		
+
 		const dieEl = document.getElementById(diceArr[i].id);
 		dieEl.setAttribute('src', diceImage);
 
@@ -151,8 +151,8 @@ function handleFarkle(score) {
 }
 
 function bankScore() {
-	scores.push(currScore);
-	document.querySelector('.total-score').textContent = scores;
+	totalScore += currScore;
+	document.querySelector('.total-score').textContent = totalScore;
 
 	// Reset scoreboard
 	currScore = 0;

@@ -52,16 +52,22 @@
 			</div>
 		</div>
 		<!-- Scoring -->
-		<div class="row score">0</div>
+		<div class="row current-score">0</div>
+		<p class="row message">
+			Please click on all scoring dice before rolling the remaining dice. 
+		</p>
 
 		<!-- Button row -->
-		<div class="row">
+		<div class="button-container">
 			<button class="button roll column" onclick="rollDice()">Roll Dice</button>
 			<button class="button bank column" onclick="bankScore()">
 				Bank Score
 			</button>
 		</div>
 
-		<div class="row total-score">0</div>
+		<div class="row total-score-container">
+			<p>⭐️ Total Score ⭐️</p>
+			<div class="total-score">0</div>
+		</div>
 	</body>
 </html>
